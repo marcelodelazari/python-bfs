@@ -2,8 +2,8 @@ import random
 
 from Rectangle import Rectangle
 
-class RectangleGroup(object):
 
+class RectangleGroup(object):
 
     def __init__(self, grid, group_id, center, target):
         self.rectangles_positions = set()
@@ -22,7 +22,6 @@ class RectangleGroup(object):
         self.growing = True
         self.found_path = False
 
-
     def restart(self):
         self.rectangles_positions.clear()
         self.rectangles.clear()
@@ -31,8 +30,8 @@ class RectangleGroup(object):
         self.target = pos
 
     def grow_rectangle(self, rectangle):
+        growth = False
         if self.growing:
-            growth = False
             x = rectangle.x
             y = rectangle.y
 
@@ -50,8 +49,8 @@ class RectangleGroup(object):
 
                     if pos == self.target:
                         self.growing = False
-                        self.found_path = True
                         possible_path = self.path(new_rectangle)
+                        self.found_path = True
                         return self.found_path, possible_path, growth
 
         return self.found_path, False, growth
@@ -59,7 +58,7 @@ class RectangleGroup(object):
     def path(self, rectangle):
         path_rectangles = []
 
-        while rectangle != None:
+        while rectangle is not None:
             rectangle.growing = False
             path_rectangles.append(rectangle)
             rectangle = rectangle.father
@@ -82,7 +81,7 @@ class RectangleGroup(object):
                     if growth:
                         growth_at_least_once = True
                     if found_path:
-                        return False # stops
+                        return False  # stops
 
             if not growth_at_least_once:
                 self.growing = False

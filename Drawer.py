@@ -2,14 +2,14 @@ import pygame
 
 
 class Drawer(object):
-
     WHITE = (255, 255, 255)
     GREY = (210, 210, 210)
     BLACK = (10, 10, 10)
     RED = (255, 0, 0)
     YELLOW = (220, 220, 0)
 
-    def __init__(self, width, height, screen, grid, rectangle_controller, rectangle_width, rectangle_height, vertical_line_width, horizontal_line_width):
+    def __init__(self, width, height, screen, grid, rectangle_controller, rectangle_width, rectangle_height,
+                 vertical_line_width, horizontal_line_width):
         self.WIDTH = width
         self.HEIGHT = height
         self.screen = screen
@@ -21,20 +21,16 @@ class Drawer(object):
         self.horizontal_line_width = horizontal_line_width
         self.font = pygame.font.SysFont('bahnschrift', int(self.rectangle_width / 1.2))
 
-
     def draw(self, target):
         self.screen.fill(self.GREY)
-
         self.draw_obstacles()
-
-
         self.draw_rectangles()
 
-        if target != None:
+        if target is not None:
             x = target[0]
             y = target[1]
             pygame.draw.rect(self.screen, self.RED, (
-            x * self.rectangle_width, y * self.rectangle_height, self.rectangle_width, self.rectangle_height))
+                x * self.rectangle_width, y * self.rectangle_height, self.rectangle_width, self.rectangle_height))
 
         self.draw_all_groups_score()
         self.draw_lines()
@@ -49,9 +45,10 @@ class Drawer(object):
         for obstacle in self.grid.obstacles:
             x = obstacle[0]
             y = obstacle[1]
-            pygame.draw.rect(self.screen, self.BLACK, (x * self.rectangle_width, y * self.rectangle_height, self.rectangle_width, self.rectangle_height))
+            pygame.draw.rect(self.screen, self.BLACK, (
+                x * self.rectangle_width, y * self.rectangle_height, self.rectangle_width, self.rectangle_height))
 
-    def draw_rectangle(self, rectangle, distance):
+    def draw_rectangle(self, rectangle):
         x = rectangle.x
         y = rectangle.y
         pos = (x, y)
@@ -89,13 +86,7 @@ class Drawer(object):
 
         self.screen.blit(score_render, (score_x, score_y))
 
-
-
     def draw_rectangles(self):
         for rectangle_group in self.rectangle_controller.rectangle_groups:
-            show_distance = not rectangle_group.growing
-            distance = False
-            if show_distance:
-                distance = len(rectangle_group.rectangles) - 1
             for rectangle in rectangle_group.rectangles:
-                self.draw_rectangle(rectangle, distance)
+                self.draw_rectangle(rectangle)

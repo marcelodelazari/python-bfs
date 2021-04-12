@@ -1,15 +1,16 @@
 import pygame
-import time
 from Drawer import Drawer
 from Grid import Grid
 from RectangleController import RectangleController
 
 pygame.init()
 
+# Keyboard control guide:
+# O = New obstacle, A = New rectangle group, R = Restart, T = Set target, G = Start animation
 def get_grid_pos(mouse_x, mouse_y):
     return mouse_x // (WIDTH // width_rectangle_amount), mouse_y // (HEIGHT // height_rectangle_amount)
 
-# return True if obstacle is created
+#  return True if obstacle is created
 def add_obstacle(grid, mouse_x, mouse_y):
     global target
 
@@ -27,25 +28,31 @@ def add_rectangle_group(rectangle_controller, group_id, mouse_x, mouse_y):
         return True
     return False
 
+
 def pos_occupied(pos):
     global target
 
     return rectangle_controller.pos_occupied(pos) or grid.is_obstacle(pos) or pos == target
 
+
 def create_target(pos):
     global target
 
-    grid_pos = get_grid_pos(mouse_x, mouse_y)
+    grid_pos = get_grid_pos(pos[0], pos[1])
     if not pos_occupied(grid_pos):
         target = grid_pos
         rectangle_controller.add_target(grid_pos)
 
+
 def animate():
     rectangle_controller.grow_groups()
+
 
 def restart():
     global user_input_allowed
     global next_rectangle_group_id
+    global target
+    global first_rectangle
 
     grid.restart()
     rectangle_controller.restart()
@@ -57,8 +64,8 @@ def restart():
 
 
 # Setup the screen
-WIDTH = 800 # optional value
-HEIGHT = 600 # optional value
+WIDTH = 800  # optional value
+HEIGHT = 600  # optional value
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Shortest path finder")
 
@@ -89,15 +96,16 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+        pressed = pygame.key.get_pressed()
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_g and next_rectangle_group_id > 0:
                 user_input_allowed = False
             if event.key == pygame.K_a and user_input_allowed:
                 if add_rectangle_group(rectangle_controller, next_rectangle_group_id, mouse_x, mouse_y):
                     next_rectangle_group_id += 1
-
-        pressed = pygame.key.get_pressed()
-        mouse_x, mouse_y = pygame.mouse.get_pos()
 
         if pressed[pygame.K_r]:
             restart()

@@ -1,6 +1,3 @@
-import pygame
-
-
 class Grid(object):
 
     def __init__(self, width, height):

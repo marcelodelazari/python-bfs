@@ -1,6 +1,3 @@
-import pygame
-
-from Rectangle import Rectangle
 from RectangleGroup import RectangleGroup
 
 
@@ -17,6 +14,7 @@ class RectangleController(object):
         self.target = pos
         for group in self.rectangle_groups:
             group.target = pos
+
     def restart(self):
         self.center_rectangle_groups.clear()
         for group in self.rectangle_groups:
@@ -52,5 +50,5 @@ class RectangleController(object):
             g //= amount
             b //= amount
 
-            return (r, g, b)
+            return r, g, b
         return False
