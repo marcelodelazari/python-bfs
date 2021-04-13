@@ -100,5 +100,5 @@ class RectangleGroup(object):
 
     def get_score(self):
         if len(self.rectangles) <= 1:
-            return -1
+            return "N"
         return len(self.rectangles) - 1

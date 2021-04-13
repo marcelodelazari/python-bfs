@@ -16,6 +16,7 @@ class RectangleController(object):
             group.target = pos
 
     def restart(self):
+        self.target = None
         self.center_rectangle_groups.clear()
         for group in self.rectangle_groups:
             group.restart()

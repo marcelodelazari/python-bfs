@@ -81,7 +81,7 @@ class Drawer(object):
         score_render = self.font.render(str(score), True, self.BLACK)
         score_x = screen_x + self.rectangle_width // 10
         score_y = screen_y + self.rectangle_height // 10
-        if score < 10:
+        if not isinstance(score, int) or score < 10:
             score_x += self.rectangle_width // 10
 
         self.screen.blit(score_render, (score_x, score_y))
