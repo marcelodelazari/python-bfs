@@ -7,3 +7,5 @@ Multiple search allowed.
 **Keyboard controls guide:**
 Hover your cursor around the screen and press a button.
 O = New obstacle, A = New rectangle group, R = Restart, T = Set target, G = Start animation
+
+https://imgflip.com/gif/55eb8w
