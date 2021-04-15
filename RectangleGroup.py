@@ -30,8 +30,11 @@ class RectangleGroup(object):
         self.target = pos
 
     def grow_rectangle(self, rectangle):
+
         growth = False
-        if self.growing:
+        if rectangle.is_growing and self.growing:
+            rectangle.is_growing = False
+
             x = rectangle.x
             y = rectangle.y
 
@@ -49,9 +52,9 @@ class RectangleGroup(object):
 
                     if pos == self.target:
                         self.growing = False
-                        possible_path = self.path(new_rectangle)
+                        right_path = self.path(new_rectangle)
                         self.found_path = True
-                        return self.found_path, possible_path, growth
+                        return self.found_path, right_path, growth
 
         return self.found_path, False, growth
 
@@ -75,13 +78,12 @@ class RectangleGroup(object):
     def grow_rectangles(self):
         if self.growing:
             growth_at_least_once = False
-            if self.growing:
-                for i in range(len(self.rectangles)):
-                    found_path, possible_path, growth = self.grow_rectangle(self.rectangles[i])
-                    if growth:
-                        growth_at_least_once = True
-                    if found_path:
-                        return False  # stops
+            for i in range(len(self.rectangles)):
+                found_path, possible_path, growth = self.grow_rectangle(self.rectangles[i])
+                if growth:
+                    growth_at_least_once = True
+                if found_path:
+                    return False  # stops
 
             if not growth_at_least_once:
                 self.growing = False

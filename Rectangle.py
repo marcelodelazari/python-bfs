@@ -7,6 +7,7 @@ class Rectangle(object):
         self.group_id = group_id
         self.color = color
         self.is_first = is_first
+        self.is_growing = True
 
     def get_pos(self):
         return self.x, self.y
