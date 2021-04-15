@@ -19,22 +19,27 @@ class Drawer(object):
         self.rectangle_height = rectangle_height
         self.vertical_line_width = vertical_line_width
         self.horizontal_line_width = horizontal_line_width
-        self.font = pygame.font.SysFont('bahnschrift', int(self.rectangle_width / 1.2))
+        self.font = pygame.font.SysFont('bahnschrift', int(self.rectangle_width / 1.5))
 
-    def draw(self, target):
+    def draw(self):
         self.screen.fill(self.GREY)
         self.draw_obstacles()
         self.draw_rectangles()
 
-        if target is not None:
-            x = target[0]
-            y = target[1]
-            pygame.draw.rect(self.screen, self.RED, (
-                x * self.rectangle_width, y * self.rectangle_height, self.rectangle_width, self.rectangle_height))
-
+        self.draw_target()
         self.draw_all_groups_score()
         self.draw_lines()
 
+    def draw_target(self):
+        if self.grid.target is None:
+            return False
+
+        x, y = self.grid.target[0], self.grid.target[1]
+        pygame.draw.rect(self.screen, self.RED, (
+            x * self.rectangle_width, y * self.rectangle_height, self.rectangle_width, self.rectangle_height))
+
+        x = self.grid.target[0]
+        y = self.grid.target[1]
     def draw_lines(self):
         for x in range(0, self.WIDTH, self.rectangle_width):
             pygame.draw.line(self.screen, self.BLACK, (x, 0), (x, self.HEIGHT), max(1, self.vertical_line_width))

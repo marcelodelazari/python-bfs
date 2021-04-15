@@ -4,33 +4,34 @@ from RectangleGroup import RectangleGroup
 class RectangleController(object):
 
     def __init__(self, grid):
-        self.center_rectangle_groups = set()
+        self.pos_rectangle_groups = set()
         self.rectangle_groups = []
         self.grid = grid
-        self.target = None
         self.drawer = None
-
-    def add_target(self, pos):
-        self.target = pos
-        for group in self.rectangle_groups:
-            group.target = pos
 
     def restart(self):
         self.target = None
-        self.center_rectangle_groups.clear()
+        self.pos_rectangle_groups.clear()
         for group in self.rectangle_groups:
             group.restart()
         self.rectangle_groups.clear()
 
-    def add_rectangle_group(self, group_id, center):
-        self.center_rectangle_groups.add(center)
-        self.rectangle_groups.append(RectangleGroup(self.grid, group_id, center, self.target))
+    def add_rectangle_group(self, group_id, pos, target):
+        if not self.is_occupied(pos) and not self.grid.is_occupied(pos):
+            self.pos_rectangle_groups.add(pos)
+            self.rectangle_groups.append(RectangleGroup(self.grid, group_id, pos, target))
+            return True
+        return False
+
+    def set_target(self, target):
+        for group in self.rectangle_groups:
+            group.target = target
 
     def grow_groups(self):
         for group in self.rectangle_groups:
             group.grow_rectangles()
 
-    def pos_occupied(self, pos):
+    def is_occupied(self, pos):
         for group in self.rectangle_groups:
             if group.pos_occupied(pos):
                 return True
