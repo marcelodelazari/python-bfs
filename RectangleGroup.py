@@ -55,11 +55,11 @@ class RectangleGroup(object):
 
         return self.found_path, False, growth
 
+    #  deletes all rectangles that doesnt belong to the right path
     def path(self, rectangle):
         path_rectangles = []
 
         while rectangle is not None:
-            rectangle.growing = False
             path_rectangles.append(rectangle)
             rectangle = rectangle.father
 
