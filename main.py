@@ -103,7 +103,7 @@ while running:
             if pressed[pygame.K_t]:
                 create_target((mouse_x, mouse_y))
             if pressed[pygame.K_z]:
-                create_random_obstacles(100)  # obstacle percentage in grid
+                create_random_obstacles(25)  # obstacle percentage in grid
 
     drawer.draw()
     pygame.display.update()
