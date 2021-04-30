@@ -14,8 +14,6 @@ def get_grid_pos(mouse_x, mouse_y):
 
 #  return True if obstacle is created
 def add_obstacle(grid, mouse_x, mouse_y):
-    global target
-
     pos = get_grid_pos(mouse_x, mouse_y)
     grid.add_obstacle(pos)
 
@@ -42,27 +40,25 @@ def animate():
 def restart():
     global user_input_allowed
     global next_rectangle_group_id
-    global target
-    global first_rectangle
+    global created_first_rectangle
 
     grid.restart()
     rectangle_controller.restart()
-    target = None
-    first_rectangle = False
+    created_first_rectangle = False
     next_rectangle_group_id = 0
     user_input_allowed = True
     next_rectangle_group_id = 0
 
 
 # Setup the screen
-WIDTH = 800  # optional value
-HEIGHT = 600  # optional value
+WIDTH = 600  # optional value
+HEIGHT = 300  # optional value
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Shortest path finder")
 
 # Setup sizes
-width_rectangle_amount = 80  # optional value, WIDTH divisor preferred
-height_rectangle_amount = 60  # optional value, HEIGHT divisor preferred
+width_rectangle_amount = 60  # optional value, WIDTH divisor preferred
+height_rectangle_amount = 30  # optional value, HEIGHT divisor preferred
 rectangle_width = WIDTH // width_rectangle_amount
 rectangle_height = HEIGHT // height_rectangle_amount
 vertical_line_width = rectangle_width // 10
@@ -76,7 +72,7 @@ drawer = Drawer(WIDTH, HEIGHT, screen, grid, rectangle_controller, rectangle_wid
                 vertical_line_width, horizontal_line_width)
 
 # Other variables
-first_rectangle = False
+created_first_rectangle = False
 next_rectangle_group_id = 0
 
 # Program loop
@@ -107,7 +103,7 @@ while running:
             if pressed[pygame.K_t]:
                 create_target((mouse_x, mouse_y))
             if pressed[pygame.K_z]:
-                create_random_obstacles(25)  # obstacles/grid
+                create_random_obstacles(100)  # obstacle percentage in grid
 
     drawer.draw()
     pygame.display.update()
@@ -117,3 +113,5 @@ while running:
     else:
         animate()
         clock.tick(30)
+
+pygame.quit()

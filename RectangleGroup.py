@@ -1,5 +1,5 @@
 import random
-
+import time
 from Rectangle import Rectangle
 
 
@@ -21,6 +21,7 @@ class RectangleGroup(object):
         self.target = target
         self.growing = True
         self.found_path = False
+        self.t = None
 
     def restart(self):
         self.rectangles_positions.clear()
@@ -30,9 +31,11 @@ class RectangleGroup(object):
         self.target = pos
 
     def grow_rectangle(self, rectangle):
+        if self.t is None:
+            self.t = time.time()
 
         growth = False
-        if rectangle.is_growing and self.growing:
+        if rectangle.is_growing:
             rectangle.is_growing = False
 
             x = rectangle.x
@@ -73,6 +76,7 @@ class RectangleGroup(object):
             self.rectangles_positions.add(rectangle.get_pos())
             self.rectangles.append(rectangle)
 
+        print("Distance:", len(self.rectangles_positions) - 1)
         return path_rectangles
 
     def grow_rectangles(self):
@@ -83,7 +87,7 @@ class RectangleGroup(object):
                 if growth:
                     growth_at_least_once = True
                 if found_path:
-                    return False  # stops
+                    break
 
             if not growth_at_least_once:
                 self.growing = False
@@ -96,11 +100,12 @@ class RectangleGroup(object):
         self.rectangles.clear()
         self.rectangles.append(self.first_rectangle)
         self.rectangles_positions.add(self.first_rectangle.get_pos())
+        print("No path was found.")
 
     def pos_occupied(self, pos):
         return pos in self.rectangles_positions
 
     def get_score(self):
-        if len(self.rectangles) <= 1:
+        if len(self.rectangles_positions) <= 1:
             return "N"
-        return len(self.rectangles) - 1
+        return len(self.rectangles_positions) - 1
